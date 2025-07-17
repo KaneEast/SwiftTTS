@@ -32,7 +32,7 @@ SwiftTTS is a feature-rich, easy-to-use iOS text-to-speech Swift Package that su
 
 Add Swift Package in Xcode:
 ```
-https://github.com/your-repo/SwiftTTS
+https://github.com/KaneEast/SwiftTTS
 ```
 
 ### Basic Usage
