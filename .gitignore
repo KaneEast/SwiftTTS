@@ -13,6 +13,8 @@
 Packages/
 Package.resolved
 *.swiftpm
+.swiftpm/*
+.swiftpm/
 
 # CocoaPods
 Pods/
