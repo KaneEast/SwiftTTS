@@ -53,12 +53,3 @@ public extension String {
         return TTSSentence(text: self, voice: voice, customConfig: config)
     }
 }
-
-// MARK: - Number Formatter Extension
-private extension NumberFormatter {
-    static let spellOut: NumberFormatter = {
-        let formatter = NumberFormatter()
-        formatter.numberStyle = .spellOut
-        return formatter
-    }()
-}

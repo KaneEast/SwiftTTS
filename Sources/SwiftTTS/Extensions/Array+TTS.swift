@@ -2,8 +2,6 @@ import Foundation
 import SwiftUI
 import Combine
 
-
-
 // MARK: - Array Extensions for TTS
 public extension Array where Element == String {
     
@@ -11,13 +9,4 @@ public extension Array where Element == String {
     func toTTSSentences(voice: TTSVoice? = nil, config: TTSConfiguration? = nil) -> [TTSSentence] {
         return self.map { $0.toTTSSentence(voice: voice, config: config) }
     }
-}
-
-// MARK: - Number Formatter Extension
-private extension NumberFormatter {
-    static let spellOut: NumberFormatter = {
-        let formatter = NumberFormatter()
-        formatter.numberStyle = .spellOut
-        return formatter
-    }()
 }

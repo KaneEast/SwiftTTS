@@ -49,17 +49,21 @@ public struct TTSVoiceSelector: View {
                 }
             }
             .navigationTitle("Select Voice")
-            .navigationBarItems(
-                leading: Button("Cancel") {
-                    presentationMode.wrappedValue.dismiss()
-                },
-                trailing: Button("Done") {
-                    if let voice = selectedVoice {
-                        manager.setPreferredVoice(voice)
+            .toolbar {
+                ToolbarItem(placement: .cancellationAction) {
+                    Button("Cancel") {
+                        presentationMode.wrappedValue.dismiss()
                     }
-                    presentationMode.wrappedValue.dismiss()
                 }
-            )
+                ToolbarItem(placement: .confirmationAction) {
+                    Button("Done") {
+                        if let voice = selectedVoice {
+                            manager.setPreferredVoice(voice)
+                        }
+                        presentationMode.wrappedValue.dismiss()
+                    }
+                }
+            }
         }
     }
     

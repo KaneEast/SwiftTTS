@@ -26,12 +26,3 @@ public extension View {
         }
     }
 }
-
-// MARK: - Number Formatter Extension
-private extension NumberFormatter {
-    static let spellOut: NumberFormatter = {
-        let formatter = NumberFormatter()
-        formatter.numberStyle = .spellOut
-        return formatter
-    }()
-}
