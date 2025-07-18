@@ -26,6 +26,15 @@ SwiftTTS is a feature-rich, easy-to-use iOS text-to-speech Swift Package that su
 - **Preference Storage**: Save user's preferred default voice
 - **SwiftUI Integration**: Provides ready-to-use UI components
 
+## 📸 Screenshots
+
+<div align="center">
+<img src="Documentation/Images/tts1.png" width="300" alt="SwiftTTS Demo 1" style="margin-right: 20px;">
+<img src="Documentation/Images/tts2.png" width="300" alt="SwiftTTS Demo 2">
+</div>
+
+*Experience the power of SwiftTTS with our intuitive interface and advanced features*
+
 ## 🚀 Quick Start
 
 ### Installation
