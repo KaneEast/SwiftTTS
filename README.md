@@ -332,9 +332,9 @@ MIT License
 
 Issues and Pull Requests are welcome!
 
-## 📞 Support
+## ✉️ Support
 
-For questions or suggestions, please submit an Issue or send an email to: support@example.com
+For questions or suggestions, please submit an Issue or send an email to: inmank99@gmail.com
 
 ---
 
