@@ -1,10 +1,8 @@
 import Foundation
 import os.log
 
-// MARK: - TTS Logger
 public class TTSLogger {
     
-    // MARK: - Singleton
     public static let shared = TTSLogger()
     
     // MARK: - Properties
