@@ -66,12 +66,20 @@ public class TTSManager: ObservableObject {
         configManager.saveConfiguration(configuration)
     }
     
-    public func getVoicesForLanguage(_ language: String) -> [TTSVoice] {
+    public func getVoicesForLanguage(_ language: Language) -> [TTSVoice] {
         return voiceManager.getVoicesForLanguage(language)
     }
     
-    public func detectLanguage(for text: String) -> String? {
+    public func getVoicesForLanguage(_ languageCode: String) -> [TTSVoice] {
+        return voiceManager.getVoicesForLanguage(languageCode)
+    }
+    
+    public func detectLanguage(for text: String) -> Language? {
         return voiceManager.detectLanguage(for: text)
+    }
+    
+    public func detectLanguageCode(for text: String) -> String? {
+        return voiceManager.detectLanguageCode(for: text)
     }
     
     // MARK: - Single Sentence Playback
@@ -244,7 +252,7 @@ public class TTSManager: ObservableObject {
         }
         
         // 默认返回第一个可用的voice
-        return availableVoices.first ?? TTSVoice(id: "default", name: "Default", language: "en-US", gender: .neutral, source: .ios)
+        return availableVoices.first ?? TTSVoice(id: "default", name: "Default", languageCode: "en-US", gender: .neutral, source: .ios)
     }
     
     private func handleSentenceCompleted(_ sentence: TTSSentence) {

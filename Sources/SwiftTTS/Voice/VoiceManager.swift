@@ -36,15 +36,18 @@ public class VoiceManager {
         return cachedVoices
     }
     
-    public func getVoicesForLanguage(_ language: String) -> [TTSVoice] {
-        let normalizedLanguage = normalizeLanguageCode(language)
+    public func getVoicesForLanguage(_ language: Language) -> [TTSVoice] {
         return getAllVoices().filter { voice in
-            voice.language.hasPrefix(normalizedLanguage) ||
-            voice.language == normalizedLanguage
+            voice.language.matches(language) || voice.language.matchesExactly(language)
         }
     }
     
-    public func detectLanguage(for text: String) -> String? {
+    public func getVoicesForLanguage(_ languageCode: String) -> [TTSVoice] {
+        let language = Language(code: .bcp47(languageCode))
+        return getVoicesForLanguage(language)
+    }
+    
+    public func detectLanguage(for text: String) -> Language? {
         languageRecognizer.reset()
         languageRecognizer.processString(text)
         
@@ -53,20 +56,90 @@ public class VoiceManager {
         }
         
         let languageCode = dominantLanguage.rawValue
-        return normalizeLanguageCode(languageCode)
+        return Language(code: .bcp47(normalizeLanguageCode(languageCode)))
+    }
+    
+    public func detectLanguageCode(for text: String) -> String? {
+        return detectLanguage(for: text)?.code.bcp47
     }
     
     public func findVoice(by id: String) -> TTSVoice? {
         return getAllVoices().first { $0.id == id }
     }
     
-    public func getDefaultVoice(for language: String) -> TTSVoice? {
+    public func getDefaultVoice(for language: Language) -> TTSVoice? {
         let voices = getVoicesForLanguage(language)
         
-        // 优先选择高质量的女性声音
         return voices.first { $0.gender == .female && $0.quality == .enhanced } ??
                voices.first { $0.gender == .female } ??
                voices.first
+    }
+    
+    public func getDefaultVoice(for languageCode: String) -> TTSVoice? {
+        let language = Language(code: .bcp47(languageCode))
+        return getDefaultVoice(for: language)
+    }
+    
+    public func getVoicesGroupedByNation() -> [String: [TTSVoice]] {
+        let voices = getAllVoices()
+        return Dictionary(grouping: voices) { voice in
+            voice.language.regionCode ?? "Unknown"
+        }
+    }
+    
+    public func getVoicesGroupedByLanguage() -> [String: [TTSVoice]] {
+        let voices = getAllVoices()
+        return Dictionary(grouping: voices) { voice in
+            voice.language.languageCode ?? "Unknown"
+        }
+    }
+    
+    public func getAvailableLanguages() -> [Language] {
+        let voices = getAllVoices()
+        let uniqueLanguages = Set(voices.map { $0.language })
+        return Array(uniqueLanguages).sorted { $0.code.bcp47 < $1.code.bcp47 }
+    }
+    
+    public func getAvailableRegions() -> [String] {
+        let voices = getAllVoices()
+        let regions = Set(voices.compactMap { $0.language.regionCode })
+        return Array(regions).sorted()
+    }
+    
+    public func getVoicesForRegion(_ regionCode: String) -> [TTSVoice] {
+        return getAllVoices().filter { voice in
+            voice.language.regionCode == regionCode
+        }
+    }
+    
+    public func getVoicesForLanguageFamily(_ languageCode: String) -> [TTSVoice] {
+        return getAllVoices().filter { voice in
+            voice.language.languageCode == languageCode
+        }
+    }
+    
+    public func searchVoices(query: String) -> [TTSVoice] {
+        let lowercaseQuery = query.lowercased()
+        return getAllVoices().filter { voice in
+            voice.name.lowercased().contains(lowercaseQuery) ||
+            voice.language.code.bcp47.lowercased().contains(lowercaseQuery) ||
+            voice.language.localizedDescription().lowercased().contains(lowercaseQuery)
+        }
+    }
+    
+    public func getPreferredVoices(maxCount: Int = 10) -> [TTSVoice] {
+        let voices = getAllVoices()
+        let preferredLanguages = [Language.current] + Language.all.prefix(5)
+        
+        var result: [TTSVoice] = []
+        for language in preferredLanguages {
+            if let voice = getDefaultVoice(for: language) {
+                result.append(voice)
+                if result.count >= maxCount { break }
+            }
+        }
+        
+        return result
     }
     
     // MARK: - Private Methods
@@ -86,7 +159,7 @@ public class VoiceManager {
         return TTSVoice(
             id: avVoice.identifier,
             name: avVoice.name,
-            language: language,
+            languageCode: language,
             gender: gender,
             source: .ios,
             quality: quality
@@ -162,7 +235,7 @@ extension VoiceManager {
         engine.speak(text: previewText, voice: voice, completion: completion)
     }
     
-    private func getPreviewText(for language: String) -> String {
+    private func getPreviewText(for language: Language) -> String {
         let previewTexts: [String: String] = [
             "zh-CN": "这是一个语音测试示例。",
             "zh-TW": "這是一個語音測試示例。",
@@ -181,20 +254,20 @@ extension VoiceManager {
             "vi-VN": "Đây là một mẫu xem trước giọng nói."
         ]
         
-        // 尝试精确匹配
-        if let text = previewTexts[language] {
+        let languageCode = language.code.bcp47
+        
+        if let text = previewTexts[languageCode] {
             return text
         }
         
-        // 尝试语言前缀匹配
-        let languagePrefix = String(language.prefix(2))
-        for (key, text) in previewTexts {
-            if key.hasPrefix(languagePrefix) {
-                return text
+        if let languagePrefix = language.languageCode {
+            for (key, text) in previewTexts {
+                if key.hasPrefix(languagePrefix) {
+                    return text
+                }
             }
         }
         
-        // 默认返回英语
         return previewTexts["en-US"] ?? "This is a voice preview sample."
     }
 }
