@@ -42,7 +42,7 @@ public extension String {
     }
     
     /// 检测文本的主要语言
-    func detectLanguage() -> String? {
+    func detectLanguage() -> Language? {
         let voiceManager = VoiceManager()
         return voiceManager.detectLanguage(for: self)
     }

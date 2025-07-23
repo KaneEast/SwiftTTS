@@ -47,8 +47,7 @@ Since this is a Swift Package Manager project:
 - Clean: `swift package clean`
 
 ### Platform Support
-- iOS 14.0+
-- macOS 11.0+
+- iOS 17.0+
 - Swift 5.9+
 
 ### Important Notes

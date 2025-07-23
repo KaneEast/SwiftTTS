@@ -67,7 +67,7 @@ public class iOSTTSEngine: NSObject, TTSEngine {
     
     private func findAVSpeechVoice(for voice: TTSVoice) -> AVSpeechSynthesisVoice? {
         return AVSpeechSynthesisVoice(identifier: voice.id) ??
-               AVSpeechSynthesisVoice(language: voice.language)
+        AVSpeechSynthesisVoice(language: voice.language.id)
     }
 }
 

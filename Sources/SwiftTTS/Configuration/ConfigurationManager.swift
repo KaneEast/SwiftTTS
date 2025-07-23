@@ -60,15 +60,24 @@ public class ConfigurationManager {
         }
     }
     
-    public func setPreferredVoice(_ voice: TTSVoice, for language: String) {
+    public func setPreferredVoice(_ voice: TTSVoice, for language: Language) {
         var preferredVoices = loadPreferredVoices()
-        preferredVoices[language] = voice
+        preferredVoices[language.code.bcp47] = voice
         savePreferredVoices(preferredVoices)
     }
     
-    public func getPreferredVoice(for language: String) -> TTSVoice? {
+    public func getPreferredVoice(for language: Language) -> TTSVoice? {
         let preferredVoices = loadPreferredVoices()
-        return preferredVoices[language]
+        return preferredVoices[language.code.bcp47]
+    }
+    
+    // Legacy String-based methods for backward compatibility
+    public func setPreferredVoice(_ voice: TTSVoice, for languageCode: String) {
+        setPreferredVoice(voice, for: Language(code: .bcp47(languageCode)))
+    }
+    
+    public func getPreferredVoice(for languageCode: String) -> TTSVoice? {
+        return getPreferredVoice(for: Language(code: .bcp47(languageCode)))
     }
     
     // MARK: - Playback History (扩展功能)

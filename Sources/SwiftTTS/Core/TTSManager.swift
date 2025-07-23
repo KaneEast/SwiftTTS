@@ -2,21 +2,11 @@ import Foundation
 import AVFoundation
 import Combine
 
-// MARK: - TTS Engine Protocol
-public protocol TTSEngine {
-    func speak(text: String, voice: TTSVoice, completion: @escaping (Result<Void, Error>) -> Void)
-    func pause()
-    func resume()
-    func stop()
-    var isPlaying: Bool { get }
-    var isPaused: Bool { get }
-}
-
-// MARK: - Main TTS Manager
+// Main TTS Manager
 @MainActor
 public class TTSManager: ObservableObject {
     
-    // MARK: - Published Properties
+    // Published Properties
     @Published public var isPlaying = false
     @Published public var isPaused = false
     @Published public var currentSentence: TTSSentence?
@@ -25,7 +15,7 @@ public class TTSManager: ObservableObject {
     @Published public var configuration = TTSConfiguration()
     @Published public var availableVoices: [TTSVoice] = []
     
-    // MARK: - Private Properties
+    // Private Properties
     private var engines: [TTSEngine] = []
     private var currentEngine: TTSEngine?
     private let eventSubject = PassthroughSubject<TTSEvent, Never>()
@@ -33,7 +23,7 @@ public class TTSManager: ObservableObject {
     private let voiceManager = VoiceManager()
     private let configManager = ConfigurationManager()
     
-    // MARK: - Public API
+    // Public API
     public var eventPublisher: AnyPublisher<TTSEvent, Never> {
         eventSubject.eraseToAnyPublisher()
     }
@@ -252,7 +242,7 @@ public class TTSManager: ObservableObject {
         }
         
         // 默认返回第一个可用的voice
-        return availableVoices.first ?? TTSVoice(id: "default", name: "Default", languageCode: "en-US", gender: .neutral, source: .ios)
+        return availableVoices.first ?? TTSVoice(id: "default", name: "Default", languageCode: "en-US", gender: .unspecified, source: .ios)
     }
     
     private func handleSentenceCompleted(_ sentence: TTSSentence) {

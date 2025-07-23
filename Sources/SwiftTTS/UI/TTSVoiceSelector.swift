@@ -68,7 +68,7 @@ public struct TTSVoiceSelector: View {
     }
     
     private var groupedVoices: [String: [TTSVoice]] {
-        Dictionary(grouping: manager.availableVoices) { $0.language }
+        Dictionary(grouping: manager.availableVoices) { $0.language.id }
     }
     
     private func previewVoice(_ voice: TTSVoice) {

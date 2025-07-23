@@ -118,6 +118,12 @@ public class VoiceManager {
         }
     }
     
+    public func getVoicesForLanguageFamily(_ language: Language) -> [TTSVoice] {
+        return getAllVoices().filter { voice in
+            voice.language.languageCode == language.languageCode
+        }
+    }
+    
     public func searchVoices(query: String) -> [TTSVoice] {
         let lowercaseQuery = query.lowercased()
         return getAllVoices().filter { voice in
@@ -150,10 +156,9 @@ public class VoiceManager {
     }
     
     private func createTTSVoice(from avVoice: AVSpeechSynthesisVoice) -> TTSVoice? {
-        //guard let language = avVoice.language else { return nil }
         let language = avVoice.language
         
-        let gender = determineGender(from: avVoice.name)
+        let gender = determineGender(from: avVoice)
         let quality = determineQuality(from: avVoice.quality)
         
         return TTSVoice(
@@ -166,22 +171,17 @@ public class VoiceManager {
         )
     }
     
-    private func determineGender(from name: String) -> TTSVoice.Gender {
-        let lowercaseName = name.lowercased()
-        
-        // 常见的女性声音名称
-        let femaleNames = ["female", "woman", "girl", "alex", "allison", "ava", "kate", "sarah", "susan", "victoria", "zoe", "samantha", "karen", "moira", "tessa", "veena", "rishi", "fiona", "marie", "amelie", "chantal", "anna", "helena", "laura", "melina", "nora", "paulina", "carmit", "lekha", "kyoko", "yuna", "li-mu", "ting-ting", "sin-ji", "satu", "sara", "ellen"]
-        
-        // 常见的男性声音名称
-        let maleNames = ["male", "man", "boy", "daniel", "fred", "jorge", "tom", "diego", "carlos", "juan", "alberto", "alex", "arthur", "brad", "bruce", "clark", "dave", "ed", "frank", "gary", "gordon", "henry", "james", "lee", "martin", "oliver", "ralph", "reed", "rocko", "shelley", "superstar", "trinoids", "whisper", "yannick", "otoya", "takaaki", "hideaki"]
-        
-        if femaleNames.contains(where: { lowercaseName.contains($0) }) {
-            return .female
-        } else if maleNames.contains(where: { lowercaseName.contains($0) }) {
+    private func determineGender(from voice: AVSpeechSynthesisVoice) -> TTSVoice.Gender {
+        switch voice.gender {
+        case .unspecified:
+            return .unspecified
+        case .male:
             return .male
+        case .female:
+            return .female
+        @unknown default:
+            return .unspecified
         }
-        
-        return .neutral
     }
     
     private func determineQuality(from quality: AVSpeechSynthesisVoiceQuality) -> TTSVoice.VoiceQuality {

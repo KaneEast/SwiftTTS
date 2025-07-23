@@ -39,11 +39,13 @@ public struct Language: Hashable, Sendable, Identifiable, Comparable {
     }
 
     public func localizedLanguage(in targetLocale: Locale = Locale.current) -> String? {
-        locale.languageCode.flatMap { targetLocale.localizedString(forLanguageCode: $0) }
+        guard let identifier = locale.language.languageCode?.identifier else { return nil }
+        return targetLocale.localizedString(forLanguageCode: identifier)
     }
 
     public func localizedRegion(in targetLocale: Locale = Locale.current) -> String? {
-        locale.regionCode.flatMap { targetLocale.localizedString(forRegionCode: $0) }
+        guard let identifier = locale.region?.identifier else { return nil }
+        return targetLocale.localizedString(forRegionCode: identifier)
     }
 
     public init(code: Code) {
@@ -95,7 +97,7 @@ extension Language {
             return predefinedFlag
         }
         
-        guard let regionCode = locale.regionCode else { return nil }
+        guard let regionCode = locale.region?.identifier else { return nil }
 
         return regionCode.unicodeScalars.compactMap {
             UnicodeScalar(127397 + $0.value)
@@ -105,15 +107,15 @@ extension Language {
 
 public extension Language {
     var languageCode: String? {
-        locale.languageCode
+        locale.language.languageCode?.identifier
     }
     
     var regionCode: String? {
-        locale.regionCode
+        locale.region?.identifier
     }
     
     var scriptCode: String? {
-        locale.scriptCode
+        locale.language.script?.identifier
     }
     
     func matches(_ other: Language) -> Bool {
@@ -136,7 +138,7 @@ public extension Language {
         }
     }
     
-    public static func < (lhs: Language, rhs: Language) -> Bool {
+    static func < (lhs: Language, rhs: Language) -> Bool {
         lhs.code.bcp47 < rhs.code.bcp47
     }
 }

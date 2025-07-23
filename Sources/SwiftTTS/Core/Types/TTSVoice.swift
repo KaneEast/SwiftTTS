@@ -9,7 +9,7 @@ public struct TTSVoice: Codable, Identifiable, Equatable {
     public let quality: VoiceQuality
     
     public enum Gender: String, Codable, CaseIterable {
-        case male, female, neutral
+        case female, male, unspecified
     }
     
     public enum VoiceSource: String, Codable {

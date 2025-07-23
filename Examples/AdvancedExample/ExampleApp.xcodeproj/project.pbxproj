@@ -7,7 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		32D8F7952E29FDE5007A2672 /* SwiftTTS in Frameworks */ = {isa = PBXBuildFile; productRef = 32D8F7942E29FDE5007A2672 /* SwiftTTS */; };
+		328278562E307CDF00B0583D /* SwiftTTS in Frameworks */ = {isa = PBXBuildFile; productRef = 328278552E307CDF00B0583D /* SwiftTTS */; };
+		3282799C2E30952700B0583D /* SwiftTTS in Frameworks */ = {isa = PBXBuildFile; productRef = 32D8F7942E29FDE5007A2672 /* SwiftTTS */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,7 +28,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				32D8F7952E29FDE5007A2672 /* SwiftTTS in Frameworks */,
+				3282799C2E30952700B0583D /* SwiftTTS in Frameworks */,
+				328278562E307CDF00B0583D /* SwiftTTS in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -71,6 +73,7 @@
 			name = ExampleApp;
 			packageProductDependencies = (
 				32D8F7942E29FDE5007A2672 /* SwiftTTS */,
+				328278552E307CDF00B0583D /* SwiftTTS */,
 			);
 			productName = ExampleApp;
 			productReference = 32D8F7822E29FD86007A2672 /* ExampleApp.app */;
@@ -101,7 +104,7 @@
 			mainGroup = 32D8F7792E29FD85007A2672;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				32D8F7932E29FDE5007A2672 /* XCLocalSwiftPackageReference "../../../SwiftTTS" */,
+				328278542E307CDF00B0583D /* XCLocalSwiftPackageReference "../../../SwiftTTS" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 32D8F7832E29FD86007A2672 /* Products */;
@@ -335,13 +338,17 @@
 /* End XCConfigurationList section */
 
 /* Begin XCLocalSwiftPackageReference section */
-		32D8F7932E29FDE5007A2672 /* XCLocalSwiftPackageReference "../../../SwiftTTS" */ = {
+		328278542E307CDF00B0583D /* XCLocalSwiftPackageReference "../../../SwiftTTS" */ = {
 			isa = XCLocalSwiftPackageReference;
 			relativePath = ../../../SwiftTTS;
 		};
 /* End XCLocalSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		328278552E307CDF00B0583D /* SwiftTTS */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = SwiftTTS;
+		};
 		32D8F7942E29FDE5007A2672 /* SwiftTTS */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = SwiftTTS;

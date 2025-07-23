@@ -179,9 +179,9 @@ public class OpenAITTSService: AITTSService {
     
     public var supportedVoices: [TTSVoice] {
         return [
-            TTSVoice(id: "alloy", name: "Alloy", language: "en-US", gender: .neutral, source: .ai, quality: .premium),
+            TTSVoice(id: "alloy", name: "Alloy", language: "en-US", gender: .unspecified, source: .ai, quality: .premium),
             TTSVoice(id: "echo", name: "Echo", language: "en-US", gender: .male, source: .ai, quality: .premium),
-            TTSVoice(id: "fable", name: "Fable", language: "en-US", gender: .neutral, source: .ai, quality: .premium),
+            TTSVoice(id: "fable", name: "Fable", language: "en-US", gender: .unspecified, source: .ai, quality: .premium),
             TTSVoice(id: "onyx", name: "Onyx", language: "en-US", gender: .male, source: .ai, quality: .premium),
             TTSVoice(id: "nova", name: "Nova", language: "en-US", gender: .female, source: .ai, quality: .premium),
             TTSVoice(id: "shimmer", name: "Shimmer", language: "en-US", gender: .female, source: .ai, quality: .premium)
