@@ -14,6 +14,8 @@ public class TTSManager: ObservableObject {
     @Published public var queue: [TTSSentence] = []
     @Published public var configuration = TTSConfiguration()
     @Published public var availableVoices: [TTSVoice] = []
+    @Published public var availableLanguages: [Language] = []
+    @Published public var voicesByLanguage: [Language: [TTSVoice]] = [:]
     
     // Private Properties
     private var engines: [TTSEngine] = []
@@ -48,6 +50,10 @@ public class TTSManager: ObservableObject {
     
     private func loadAvailableVoices() {
         availableVoices = voiceManager.getAllVoices()
+        
+        let groupedVoices = Dictionary(grouping: availableVoices, by: \.language)
+        self.voicesByLanguage = groupedVoices
+        self.availableLanguages = groupedVoices.keys.sorted { $0.localizedDescription() < $1.localizedDescription() }
     }
     
     // MARK: - Voice Management

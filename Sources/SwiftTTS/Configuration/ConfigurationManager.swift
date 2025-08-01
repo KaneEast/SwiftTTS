@@ -26,14 +26,14 @@ public class ConfigurationManager {
     
     public func loadConfiguration() -> TTSConfiguration {
         guard let data = userDefaults.data(forKey: Keys.configuration) else {
-            return TTSConfiguration() // 返回默认配置
+            return TTSConfiguration()
         }
         
         do {
             return try decoder.decode(TTSConfiguration.self, from: data)
         } catch {
             print("Failed to load configuration: \(error)")
-            return TTSConfiguration() // 返回默认配置
+            return TTSConfiguration()
         }
     }
     

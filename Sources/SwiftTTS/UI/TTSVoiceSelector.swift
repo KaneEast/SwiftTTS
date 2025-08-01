@@ -17,7 +17,7 @@ public struct TTSVoiceSelector: View {
         NavigationView {
             List {
                 ForEach(groupedVoices.keys.sorted(), id: \.self) { language in
-                    Section(header: Text(language)) {
+                    Section(header: Text(language.flagWithLocalizedDescription())) {
                         ForEach(groupedVoices[language] ?? []) { voice in
                             HStack {
                                 VStack(alignment: .leading) {
@@ -67,8 +67,8 @@ public struct TTSVoiceSelector: View {
         }
     }
     
-    private var groupedVoices: [String: [TTSVoice]] {
-        Dictionary(grouping: manager.availableVoices) { $0.language.id }
+    private var groupedVoices: [Language: [TTSVoice]] {
+        Dictionary(grouping: manager.availableVoices) { $0.language }
     }
     
     private func previewVoice(_ voice: TTSVoice) {
